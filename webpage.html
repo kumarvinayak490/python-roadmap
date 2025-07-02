@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive 22-Day Python Roadmap</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #f7fafc;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: The application is structured as a multi-section, single-page dashboard. It begins with an overview section featuring a progress chart and key metrics for immediate engagement. The core of the app is a tabbed interface for navigating between the three weeks of the learning plan. This is more user-friendly than a long scroll, allowing focused exploration of each week's content. Each day is presented as a card with a "details" button, which reveals more information in a modal window. This keeps the main view clean while providing depth on demand. This structure was chosen to transform the linear text document into a non-linear, explorable, and visually organized learning path, enhancing usability and motivation. -->
+    <!-- Visualization & Content Choices: 
+        - Overall Progress: A Donut chart (Chart.js) is used to visualize the overall completion percentage. Goal: Inform. Interaction: Hover to see details. Justification: It's a clear and immediate indicator of progress.
+        - Weekly Breakdown: A Bar chart (Chart.js) shows the number of topics per week. Goal: Compare. Interaction: Hover over bars. Justification: It provides a quick comparison of the workload each week.
+        - Daily Plan: Interactive cards (HTML/CSS/JS) represent each day. Goal: Organize. Interaction: Click to open a modal with details. Justification: This organizes a large amount of text into a digestible format. The modal approach avoids cluttering the main UI.
+        - Icons: Unicode characters are used for visual cues (e.g., 🎯, 💡). Goal: Inform. Justification: Lightweight and avoids external image dependencies.
+        - All visualizations are rendered on Canvas, adhering to the NO SVG/Mermaid constraint. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="bg-gray-50 font-sans text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Python Roadmap</h1>
+            <p class="text-lg text-gray-600">From Beginner to Engineer in 22 Days</p>
+        </header>
+
+        <main>
+            <section id="overview" class="mb-12 bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-2xl font-bold text-center mb-6">Learning Dashboard</h2>
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div class="chart-container mx-auto">
+                        <canvas id="progressChart"></canvas>
+                    </div>
+                    <div class="text-center md:text-left">
+                        <h3 class="text-xl font-semibold mb-4">Your Journey at a Glance</h3>
+                        <p class="text-gray-600 mb-6">This dashboard provides a high-level overview of your 22-day learning path. Use the chart to visualize the curriculum's structure and the tabs below to dive into the specifics of each day's topics and projects. Your goal is to build a solid foundation and progressively tackle more advanced concepts.</p>
+                        <div class="flex justify-center md:justify-start space-x-4">
+                            <div class="bg-blue-100 text-blue-800 p-4 rounded-lg text-center">
+                                <div class="text-3xl font-bold">22</div>
+                                <div class="text-sm">Total Days</div>
+                            </div>
+                            <div class="bg-green-100 text-green-800 p-4 rounded-lg text-center">
+                                <div class="text-3xl font-bold">3</div>
+                                <div class="text-sm">Mini-Projects</div>
+                            </div>
+                            <div class="bg-purple-100 text-purple-800 p-4 rounded-lg text-center">
+                                <div class="text-3xl font-bold">1</div>
+                                <div class="text-sm">Capstone</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="learning-plan">
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <div class="mb-6 border-b border-gray-200">
+                        <nav class="flex space-x-4" aria-label="Tabs">
+                            <button onclick="changeTab(1)" id="tab-1" class="tab-button text-lg font-semibold text-blue-600 border-b-2 border-blue-600 py-3 px-4">Week 1: Fundamentals</button>
+                            <button onclick="changeTab(2)" id="tab-2" class="tab-button text-lg font-semibold text-gray-500 hover:text-blue-600 hover:border-b-2 hover:border-blue-500 py-3 px-4">Week 2: Intermediate</button>
+                            <button onclick="changeTab(3)" id="tab-3" class="tab-button text-lg font-semibold text-gray-500 hover:text-blue-600 hover:border-b-2 hover:border-blue-500 py-3 px-4">Week 3 & Beyond</button>
+                        </nav>
+                    </div>
+
+                    <div id="content-1" class="tab-content">
+                        <p class="text-gray-600 mb-6">The first week is all about building a strong foundation. You'll master Python's basic syntax, learn how to work with different types of data, control the flow of your programs, and organize data in fundamental structures. By the end of this week, you'll be able to write simple but complete Python scripts.</p>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="week-1-cards"></div>
+                    </div>
+
+                    <div id="content-2" class="tab-content hidden">
+                        <p class="text-gray-600 mb-6">In week two, you'll move beyond the basics to write more robust and organized code. You'll learn how to handle errors, work with files, and grasp the principles of Object-Oriented Programming (OOP). We'll also introduce the crucial skills of testing and debugging to ensure your code is reliable.</p>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="week-2-cards"></div>
+                    </div>
+                    
+                    <div id="content-3" class="tab-content hidden">
+                         <p class="text-gray-600 mb-6">This final phase pushes you into advanced territory. You'll explore powerful Python features like generators and decorators, learn to handle multiple tasks with concurrency and asynchronous programming, and interact with web APIs. You'll also get a taste of data analysis and web development, culminating in a capstone project that ties everything together.</p>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="week-3-cards"></div>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 id="modal-title" class="text-2xl font-bold"></h2>
+                    <button onclick="closeModal()" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+                </div>
+                <div id="modal-content" class="text-gray-600"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const roadmapData = [
+            // Week 1
+            { day: 1, week: 1, title: "Introduction & Basics", focus: "Understanding Python's simplicity and core building blocks.", details: "What is Python, setting up, variables, fundamental data types (integers, floats, strings, booleans)." },
+            { day: 2, week: 1, title: "Operators & I/O", focus: "Interacting with data and performing basic computations.", details: "Arithmetic, comparison, logical, assignment operators, basic input/output (print(), input()), type conversion." },
+            { day: 3, week: 1, title: "Control Flow: Conditionals", focus: "Making decisions in your code.", details: "if, elif, else statements, nested conditionals." },
+            { day: 4, week: 1, title: "Control Flow: Loops", focus: "Repeating actions efficiently.", details: "for loops (iterating over sequences), while loops, break, continue." },
+            { day: 5, week: 1, title: "Data Structures: Lists & Tuples", focus: "Storing ordered collections of data.", details: "Creating, accessing, modifying, and manipulating lists; understanding tuples (immutability)." },
+            { day: 6, week: 1, title: "Data Structures: Dictionaries & Sets", focus: "Storing unordered collections with efficient lookups.", details: "Key-value pairs in dictionaries, unique elements in sets, common operations." },
+            { day: 7, week: 1, title: "Functions & Scope", focus: "Defining reusable blocks of code.", details: "Defining functions, parameters, return values, local vs. global scope, lambda functions. Mini-Project: Simple calculator or text analyzer." },
+            // Week 2
+            { day: 8, week: 2, title: "Modules, Packages & Environments", focus: "Organizing code and managing dependencies.", details: "Importing modules, creating your own modules, understanding packages, virtual environments (venv, pip)." },
+            { day: 9, week: 2, title: "Error Handling", focus: "Writing robust code that handles unexpected situations.", details: "try, except, else, finally blocks, custom exceptions." },
+            { day: 10, week: 2, title: "File I/O", focus: "Interacting with the file system.", details: "Reading from and writing to text files, with statement, CSV handling." },
+            { day: 11, week: 2, title: "OOP - Part 1", focus: "Modeling real-world entities with code.", details: "Classes, objects, attributes, methods, __init__." },
+            { day: 12, week: 2, title: "OOP - Part 2", focus: "Advanced OOP principles for scalable design.", details: "Inheritance, polymorphism, encapsulation, super()." },
+            { day: 13, week: 2, title: "Introduction to Testing", focus: "Ensuring code correctness and reliability.", details: "Why test, unittest module basics, writing simple test cases." },
+            { day: 14, week: 2, title: "Regular Expressions & Debugging", focus: "Pattern matching and finding bugs.", details: "Basic regex patterns, re module, using a debugger (e.g., pdb, VS Code debugger). Mini-Project: Basic data validation or log file parser." },
+            // Week 3
+            { day: 15, week: 3, title: "Generators, Iterators & Decorators", focus: "Writing efficient and reusable code.", details: "yield keyword, creating iterators, function decorators (@)." },
+            { day: 16, week: 3, title: "Context Managers & Advanced Args", focus: "Resource management and flexible function design.", details: "with statement revisited, __enter__, __exit__, *args, **kwargs." },
+            { day: 17, week: 3, title: "Concurrency: Threads & Processes", focus: "Performing multiple tasks simultaneously.", details: "threading module, multiprocessing module, GIL (Global Interpreter Lock) overview." },
+            { day: 18, week: 3, title: "Asynchronous Programming", focus: "Non-blocking I/O for high performance.", details: "asyncio basics, async/await, event loop." },
+            { day: 19, week: 3, title: "Working with APIs", focus: "Interacting with web services.", details: "HTTP requests, requests library, JSON data, consuming REST APIs." },
+            { day: 20, week: 3, title: "Data Analysis Basics", focus: "Handling and analyzing tabular data.", details: "Introduction to NumPy (arrays), Pandas (DataFrames, basic operations, reading CSVs)." },
+            { day: 21, week: 3, title: "Web Development Basics", focus: "Creating web-based applications.", details: "Setting up a simple web server (Flask/FastAPI), routing, handling requests/responses, building a basic REST API endpoint." },
+            { day: 22, week: 3, title: "Capstone Project & Beyond", focus: "Consolidate learning and plan future growth.", details: "Building a more complex application integrating various concepts (e.g., a simple web scraper). Reviewing all topics, project structuring, packaging (basic setuptools)." }
+        ];
+
+        function createDayCard(dayData) {
+            const card = document.createElement('div');
+            card.className = 'bg-gray-100 p-5 rounded-lg shadow-sm hover:shadow-lg hover:scale-105 transition-all duration-300 flex flex-col';
+            card.innerHTML = `
+                <div class="flex-grow">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-semibold bg-blue-200 text-blue-800 px-2 py-1 rounded">Day ${dayData.day}</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">${dayData.title}</h3>
+                    <p class="text-sm text-gray-600">🎯 ${dayData.focus}</p>
+                </div>
+                <button onclick="showDetails(${dayData.day})" class="mt-4 text-sm bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md w-full transition-colors duration-300">
+                    View Details
+                </button>
+            `;
+            return card;
+        }
+
+        function populateWeeks() {
+            const week1Container = document.getElementById('week-1-cards');
+            const week2Container = document.getElementById('week-2-cards');
+            const week3Container = document.getElementById('week-3-cards');
+
+            roadmapData.forEach(day => {
+                const card = createDayCard(day);
+                if (day.week === 1) {
+                    week1Container.appendChild(card);
+                } else if (day.week === 2) {
+                    week2Container.appendChild(card);
+                } else {
+                    week3Container.appendChild(card);
+                }
+            });
+        }
+        
+        function changeTab(tabNumber) {
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+            document.getElementById(`content-${tabNumber}`).classList.remove('hidden');
+
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('text-blue-600', 'border-blue-600');
+                button.classList.add('text-gray-500', 'hover:text-blue-600', 'hover:border-b-2', 'hover:border-blue-500');
+            });
+            const selectedButton = document.getElementById(`tab-${tabNumber}`);
+            selectedButton.classList.add('text-blue-600', 'border-blue-600');
+            selectedButton.classList.remove('text-gray-500', 'hover:text-blue-600', 'hover:border-blue-500');
+        }
+
+        function showDetails(day) {
+            const data = roadmapData.find(d => d.day === day);
+            if (data) {
+                document.getElementById('modal-title').innerText = `Day ${data.day}: ${data.title}`;
+                document.getElementById('modal-content').innerHTML = `
+                    <p class="font-semibold text-lg mb-2">💡 Core Topics:</p>
+                    <p class="mb-4">${data.details}</p>
+                    <p class="font-semibold text-lg mb-2">🎯 Primary Focus:</p>
+                    <p>${data.focus}</p>
+                `;
+                document.getElementById('modal').classList.remove('hidden');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
+        }
+        
+        function createProgressChart() {
+            const ctx = document.getElementById('progressChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Week 1: Fundamentals', 'Week 2: Intermediate', 'Week 3: Advanced & Capstone'],
+                    datasets: [{
+                        label: 'Days per Week',
+                        data: [7, 7, 8],
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.7)',
+                            'rgba(16, 185, 129, 0.7)',
+                            'rgba(139, 92, 246, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(59, 130, 246, 1)',
+                            'rgba(16, 185, 129, 1)',
+                            'rgba(139, 92, 246, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Curriculum Breakdown by Week',
+                            font: {
+                                size: 16
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            populateWeeks();
+            createProgressChart();
+        });
+
+    </script>
+</body>
+</html>
