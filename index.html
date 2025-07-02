@@ -24,16 +24,16 @@
                 height: 350px;
             }
         }
+        /* Hide scrollbars on Webkit (Chrome, Safari, etc.) */
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        /* Hide scrollbars on Firefox */
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
     </style>
-    <!-- Chosen Palette: Warm Neutrals -->
-    <!-- Application Structure Plan: The application is structured as a multi-section, single-page dashboard. It begins with an overview section featuring a progress chart and key metrics for immediate engagement. The core of the app is a tabbed interface for navigating between the three weeks of the learning plan. This is more user-friendly than a long scroll, allowing focused exploration of each week's content. Each day is presented as a card with a "details" button, which reveals more information in a modal window. This keeps the main view clean while providing depth on demand. This structure was chosen to transform the linear text document into a non-linear, explorable, and visually organized learning path, enhancing usability and motivation. -->
-    <!-- Visualization & Content Choices: 
-        - Overall Progress: A Donut chart (Chart.js) is used to visualize the overall completion percentage. Goal: Inform. Interaction: Hover to see details. Justification: It's a clear and immediate indicator of progress.
-        - Weekly Breakdown: A Bar chart (Chart.js) shows the number of topics per week. Goal: Compare. Interaction: Hover over bars. Justification: It provides a quick comparison of the workload each week.
-        - Daily Plan: Interactive cards (HTML/CSS/JS) represent each day. Goal: Organize. Interaction: Click to open a modal with details. Justification: This organizes a large amount of text into a digestible format. The modal approach avoids cluttering the main UI.
-        - Icons: Unicode characters are used for visual cues (e.g., 🎯, 💡). Goal: Inform. Justification: Lightweight and avoids external image dependencies.
-        - All visualizations are rendered on Canvas, adhering to the NO SVG/Mermaid constraint. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 </head>
 <body class="bg-gray-50 font-sans text-gray-800">
 
@@ -75,10 +75,10 @@
             <section id="learning-plan">
                 <div class="bg-white rounded-xl shadow-md p-6">
                     <div class="mb-6 border-b border-gray-200">
-                        <nav class="flex space-x-4" aria-label="Tabs">
-                            <button onclick="changeTab(1)" id="tab-1" class="tab-button text-lg font-semibold text-blue-600 border-b-2 border-blue-600 py-3 px-4">Week 1: Fundamentals</button>
-                            <button onclick="changeTab(2)" id="tab-2" class="tab-button text-lg font-semibold text-gray-500 hover:text-blue-600 hover:border-b-2 hover:border-blue-500 py-3 px-4">Week 2: Intermediate</button>
-                            <button onclick="changeTab(3)" id="tab-3" class="tab-button text-lg font-semibold text-gray-500 hover:text-blue-600 hover:border-b-2 hover:border-blue-500 py-3 px-4">Week 3 & Beyond</button>
+                        <nav class="flex space-x-4 overflow-x-auto whitespace-nowrap -mx-4 px-4 scrollbar-hide" aria-label="Tabs">
+                            <button onclick="changeTab(1)" id="tab-1" class="tab-button min-w-max text-lg font-semibold text-blue-600 border-b-2 border-blue-600 py-3 px-4">Week 1: Fundamentals</button>
+                            <button onclick="changeTab(2)" id="tab-2" class="tab-button min-w-max text-lg font-semibold text-gray-500 hover:text-blue-600 hover:border-b-2 hover:border-blue-500 py-3 px-4">Week 2: Intermediate</button>
+                            <button onclick="changeTab(3)" id="tab-3" class="tab-button min-w-max text-lg font-semibold text-gray-500 hover:text-blue-600 hover:border-b-2 hover:border-blue-500 py-3 px-4">Week 3 & Beyond</button>
                         </nav>
                     </div>
 
